@@ -9,3 +9,5 @@
 - react-redux
 - react-router-dom
 - redux-thunk
+- redux
+- body-parser
