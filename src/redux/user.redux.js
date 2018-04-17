@@ -75,7 +75,8 @@ export function register({user,pwd,repeatPwd,type}) {
 	
 }
 
-function authSuccess(data) {
+function authSuccess(obj) {
+	const {pwd,...data} = obj
 	return {type: AUTH_SUCCESS, payload:data}
 }
 
