@@ -4,6 +4,6 @@ import { combineReducers } from 'redux'
 import {user} from './redux/user.redux'
 //返回对应列表数据
 import {chartuser} from './redux/chartuser'
-
-export default combineReducers({user,chartuser})
+import {chat} from './redux/chat.redux'
+export default combineReducers({user,chartuser,chat})
 

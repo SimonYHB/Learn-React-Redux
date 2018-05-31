@@ -30,7 +30,7 @@ class GeniusInfo extends Component {
     return (
 		<div>
 			{redirectTo && path !== redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
-			<NavBar mode="dark">BOSS完善信息页</NavBar>
+			<NavBar mode="dark">genius完善信息页</NavBar>
 			<AvatarSelector selectAvatar={(imgname)=>{
 				this.setState({
 					avatar:imgname

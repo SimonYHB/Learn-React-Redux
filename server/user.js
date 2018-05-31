@@ -4,6 +4,7 @@ const utils = require('utility')
 const Router = express.Router()   //向外暴露Route 外部app.use('/user',userRouter)指定router来调用
 const model = require('./model')
 const User = model.getModel('user')
+const Chat = model.getModel('chat')
 const _filter = {'pwd':0,'__v':0}  //过滤返回的密码和版本号
 
 Router.get('/list',function(req, res){
@@ -12,6 +13,34 @@ Router.get('/list',function(req, res){
 
 	User.find({type},function(err,doc){
 		return res.json({code:0, data:doc})
+	})
+})
+Router.get('/getmsglist',function(req,res){
+  const {userid} = req.cookies
+   let users = {}
+   User.find({},function(e,userdoc){
+		userdoc.forEach(v=>{
+			users[v._id] = {name:v.user, avatar:v.avatar}
+		})
+	})
+   
+   Chat.find({'$or':[{from:userid},{to:userid}]},function(err,doc){
+		if (!err) {
+			return res.json({code:0,msgs:doc, users:users})
+		}
+
+   })
+})
+Router.post('/readmsg',function(req,res){
+	const userid = req.cookies.userid
+	const {from} = req.body
+	Chat.update({from,to:userid},{'$set':{read:true}},
+		{'multi':true},function(err,doc){
+		if (!err) {
+			console.log(doc)
+			return res.json({code:0,num:doc.nModified})
+		}
+		return res.json({code:1,msg:'修改失败'})
 	})
 })
 Router.post('/update',function(req,res){
